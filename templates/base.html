@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CineSpike{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}AI-powered movie trailer analysis platform{% endblock %}" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <!-- App CSS — frontend team: all visual changes go in style.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAV ═══════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a class="nav-logo" href="/">
+      <span class="logo-icon">🎬</span>
+      <span class="logo-text">Cine<span class="accent">Spike</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Analyze</a></li>
+      <li><a href="/history" class="nav-link {% if request.path == '/history' %}active{% endif %}">History</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════ PAGE CONTENT ══════════════════════════════════ -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════════════════════ -->
+  <footer class="footer">
+    <p>CineSpike &copy; 2025 &mdash; Powered by TMDB 5000 &amp; ChromaDB</p>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

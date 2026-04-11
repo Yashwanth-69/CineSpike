@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}CineSpike — Results{% endblock %}
+
+{% block content %}
+<!-- All data is loaded from /api/results/{{ analysis_id }} by results.js -->
+<!-- Frontend team: edit the section layouts below. Data binding is in static/js/results.js -->
+
+<!-- ═══ LOADING SKELETON ═══════════════════════════════════════════════════ -->
+<div id="loadingState" class="section-center" aria-live="polite">
+  <div class="spinner large" aria-label="Loading results"></div>
+  <p class="hint" style="margin-top:1rem">Loading analysis results…</p>
+</div>
+
+<!-- ═══ ERROR STATE ════════════════════════════════════════════════════════ -->
+<div id="errorState" class="section-center hidden">
+  <p class="error-msg" id="errorMsg"></p>
+  <a href="/" class="btn btn-primary" style="margin-top:1rem">Try Again</a>
+</div>
+
+<!-- ═══ RESULTS CONTAINER (hidden until data loads) ═══════════════════════ -->
+<div id="resultsContainer" class="hidden">
+
+  <!-- File meta banner -->
+  <div class="results-banner">
+    <div>
+      <h1 class="results-headline">Analysis Complete</h1>
+      <p class="results-meta">
+        <span id="metaFilename"></span> &bull;
+        <span id="metaTimestamp"></span>
+      </p>
+    </div>
+    <a href="/" class="btn btn-outline">← New Analysis</a>
+  </div>
+
+  <!-- ══ SECTION 1: TAGS ════════════════════════════════════════════════ -->
+  <section class="results-section" id="sectionTags" aria-labelledby="tagsHeading">
+    <h2 class="section-heading" id="tagsHeading">
+      <span class="section-icon" aria-hidden="true">🏷</span> Detected Tags
+      <span class="method-badge" id="tagMethod"></span>
+    </h2>
+
+    <div class="tags-grid">
+      <!-- Genre badges -->
+      <div class="card">
+        <h3 class="card-subheading">Genres</h3>
+        <div class="badge-wrap" id="genreBadges"></div>
+      </div>
+
+      <!-- Emotion badges -->
+      <div class="card">
+        <h3 class="card-subheading">Emotional Tone</h3>
+        <div class="badge-wrap" id="emotionBadges"></div>
+      </div>
+
+      <!-- Keywords -->
+      <div class="card">
+        <h3 class="card-subheading">Keywords</h3>
+        <div class="badge-wrap" id="keywordBadges"></div>
+      </div>
+    </div>
+
+    <!-- Confidence chart -->
+    <div class="card chart-card" id="confidenceChartCard">
+      <h3 class="card-subheading">Tag Confidence Distribution</h3>
+      <canvas id="confidenceChart" height="120" aria-label="Tag confidence bar chart" role="img"></canvas>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2: TOP 10 SIMILAR MOVIES ═══════════════════════════════ -->
+  <section class="results-section" id="sectionMovies" aria-labelledby="moviesHeading">
+    <h2 class="section-heading" id="moviesHeading">
+      <span class="section-icon" aria-hidden="true">🎥</span> Top 10 Similar Films
+    </h2>
+    <div class="movies-grid" id="moviesGrid"></div>
+  </section>
+
+  <!-- ══ SECTION 3: AUDIENCE PROFILE ════════════════════════════════════ -->
+  <section class="results-section" id="sectionAudience" aria-labelledby="audienceHeading">
+    <h2 class="section-heading" id="audienceHeading">
+      <span class="section-icon" aria-hidden="true">👥</span> Target Audience
+    </h2>
+
+    <div class="audience-grid">
+
+      <!-- Subreddits -->
+      <div class="card">
+        <h3 class="card-subheading">Primary Communities</h3>
+        <ul class="subreddit-list" id="primarySubs"></ul>
+      </div>
+
+      <div class="card">
+        <h3 class="card-subheading">Secondary Communities</h3>
+        <ul class="subreddit-list" id="secondarySubs"></ul>
+      </div>
+
+      <!-- Demographics -->
+      <div class="card">
+        <h3 class="card-subheading">Demographics</h3>
+        <div class="demo-stat"><span>Age Range</span> <strong id="demoAge"></strong></div>
+        <canvas id="genderChart" height="180" aria-label="Gender split donut chart" role="img"></canvas>
+      </div>
+
+      <!-- Box office -->
+      <div class="card">
+        <h3 class="card-subheading">Box Office Estimate</h3>
+        <div class="bo-range" id="boRange"></div>
+        <p class="hint">Based on average revenue of top‑10 comparable films.</p>
+        <h3 class="card-subheading" style="margin-top:1.2rem">Marketing Channels</h3>
+        <ul class="platform-list" id="marketingList"></ul>
+      </div>
+
+    </div><!-- /.audience-grid -->
+
+    <!-- Sample posts -->
+    <div class="card" style="margin-top:1.5rem">
+      <h3 class="card-subheading">Synthetic Community Buzz</h3>
+      <div class="posts-list" id="postsList"></div>
+    </div>
+
+    <!-- Addressable audience -->
+    <div class="card stat-card" style="margin-top:1rem">
+      <span class="stat-label">Total Addressable Reddit Audience</span>
+      <span class="stat-value" id="totalAudience"></span>
+    </div>
+
+  </section>
+
+  <!-- ══ SECTION 4: RELEASE STRATEGY ════════════════════════════════════ -->
+  <section class="results-section" id="sectionRelease" aria-labelledby="releaseHeading">
+    <h2 class="section-heading" id="releaseHeading">
+      <span class="section-icon" aria-hidden="true">📅</span> Release Strategy
+    </h2>
+
+    <div class="release-grid">
+
+      <!-- Recommendation card -->
+      <div class="card release-hero-card">
+        <p class="release-label">Recommended Month</p>
+        <h3 class="release-month" id="releaseMonth"></h3>
+        <p class="release-quarter" id="releaseQuarter"></p>
+        <p class="release-season" id="releaseSeason"></p>
+        <div class="method-badge" id="releasePlannerMethod"></div>
+      </div>
+
+      <!-- LLM reasoning -->
+      <div class="card">
+        <h3 class="card-subheading">Strategic Rationale</h3>
+        <p class="reasoning-text" id="releaseReasoning"></p>
+        <h3 class="card-subheading" style="margin-top:1.2rem">Months to Avoid</h3>
+        <div class="badge-wrap" id="avoidMonths"></div>
+      </div>
+
+      <!-- Monthly distribution chart -->
+      <div class="card chart-card" style="grid-column: 1 / -1">
+        <h3 class="card-subheading">Historical Release Month Distribution (Comparable Films)</h3>
+        <canvas id="releaseChart" height="100" aria-label="Monthly release distribution chart" role="img"></canvas>
+      </div>
+
+    </div><!-- /.release-grid -->
+
+    <!-- Comparable releases table -->
+    <div class="card" style="margin-top:1.5rem">
+      <h3 class="card-subheading">Comparable Release Dates</h3>
+      <table class="data-table" id="comparableTable">
+        <thead>
+          <tr><th>Title</th><th>Release Date</th><th>Revenue</th></tr>
+        </thead>
+        <tbody id="comparableBody"></tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ══ SECTION 5: AI CAMPAIGN STRATEGY (OLLAMA ON-DEMAND) ══════════════ -->
+  <section class="results-section" id="sectionCampaign" aria-labelledby="campaignHeading">
+    <div class="history-header">
+      <h2 class="section-heading" id="campaignHeading" style="margin-bottom:0">
+        <span class="section-icon" aria-hidden="true">🤖</span> Deep-Dive AI Campaign Strategy
+      </h2>
+      <button class="btn btn-primary" id="btnGenerateCampaign">
+        <span class="btn-label" id="btnGenerateCampaignLabel">Generate AI Strategy (Local)</span>
+      </button>
+    </div>
+
+    <!-- Generated campaign container, hidden until generated -->
+    <div id="campaignContainer" class="hidden" style="margin-top:1.5rem">
+      <div class="card release-hero-card" style="margin-bottom: 1.5rem;">
+        <h3 class="card-subheading" style="color:var(--clr-accent-2)">Campaign Core Concept</h3>
+        <p class="reasoning-text" style="font-size:1.1rem;color:white" id="campaignOverview"></p>
+      </div>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3 class="card-subheading">Release Timeline Context</h3>
+        <p class="reasoning-text" id="campaignReleaseAnalysis"></p>
+      </div>
+
+      <div class="release-grid" id="campaignPhasesGrid" style="margin-bottom: 1.5rem">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="card" style="border-left:4px solid var(--clr-accent)">
+        <h3 class="card-subheading">Reddit Guerrilla Marketing Hero Tactic</h3>
+        <p class="reasoning-text" id="campaignGuerrilla"></p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#resultsContainer -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Inject ID safely for JS to pick up
+  window.CINESPIKE_ANALYSIS_ID = "{{ analysis_id }}";
+</script>
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+{% endblock %}

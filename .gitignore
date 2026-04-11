@@ -1,0 +1,20 @@
+# ── Data & Vector DB ──
+/data/
+/chroma_db/
+/uploads/*
+!/uploads/.gitkeep
+*.db
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.env
+venv/
+env/
+.venv/
+
+# ── OS ──
+.DS_Store
+Thumbs.db

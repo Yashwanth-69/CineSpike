@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}CineSpike — Analyze Your Trailer{% endblock %}
+{% block meta_desc %}Upload your movie trailer for AI-powered audience and release strategy analysis{% endblock %}
+
+{% block content %}
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-bg-orbs" aria-hidden="true"></div>
+  <h1 class="hero-title">
+    Decode Your Trailer.<br />
+    <span class="gradient-text">Find Your Audience.</span>
+  </h1>
+  <p class="hero-subtitle">
+    Upload a trailer and instantly get genre tags, the top&nbsp;10 comparable films,
+    Reddit audience insights, and a data-backed release strategy.
+  </p>
+</section>
+
+<!-- ═══ UPLOAD CARD ═══════════════════════════════════════════════════════ -->
+<section class="upload-section" aria-label="Upload trailer">
+  <div class="card upload-card" id="uploadCard">
+
+    <!-- Drag-and-drop zone -->
+    <div class="drop-zone" id="dropZone" role="button" tabindex="0"
+         aria-label="drag and drop or click to upload trailer">
+      <div class="drop-icon" aria-hidden="true">🎞</div>
+      <p class="drop-label">Drag &amp; drop your trailer here</p>
+      <p class="drop-sub">or click to browse &mdash; MP4, MOV, AVI, MKV up to 500&nbsp;MB</p>
+      <input type="file" id="trailerInput" name="trailer"
+             accept=".mp4,.mov,.avi,.mkv" class="file-input" aria-hidden="true" />
+    </div>
+
+    <!-- Selected file preview -->
+    <div class="file-preview hidden" id="filePreview">
+      <span class="file-preview-icon" aria-hidden="true">🎬</span>
+      <span class="file-preview-name" id="filePreviewName"></span>
+      <button class="btn-icon remove-file" id="removeFile" aria-label="Remove file">✕</button>
+    </div>
+
+    <!-- Manual tag override (always visible — lets frontend team hide/show) -->
+    <details class="manual-tags" id="manualTagsSection">
+      <summary class="manual-tags-toggle">
+        ⚙ Set tags manually <span class="badge badge-neutral">optional</span>
+      </summary>
+      <div class="manual-tags-body">
+        <p class="hint">
+          If automatic CLIP analysis is unavailable, select genres and emotional tones below.
+        </p>
+
+        <!-- Genres -->
+        <fieldset class="tag-fieldset">
+          <legend>Genres</legend>
+          <div class="checkbox-grid" id="genreGrid">
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="action movie" />Action</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="comedy film" />Comedy</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="drama film" />Drama</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="horror movie" />Horror</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="science fiction film" />Sci-Fi</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="thriller movie" />Thriller</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="romance movie" />Romance</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="fantasy movie" />Fantasy</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="crime movie" />Crime</label>
+            <label class="tag-checkbox"><input type="checkbox" name="genres[]" value="animated film" />Animation</label>
+          </div>
+        </fieldset>
+
+        <!-- Emotions -->
+        <fieldset class="tag-fieldset">
+          <legend>Emotional Tone</legend>
+          <div class="checkbox-grid" id="emotionGrid">
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="tense and suspenseful" />Tense</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="happy and uplifting" />Happy</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="mysterious and dark" />Mysterious</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="romantic and emotional" />Romantic</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="scary and frightening" />Scary</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="exciting and adventurous" />Exciting</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="sad and melancholic" />Melancholic</label>
+            <label class="tag-checkbox"><input type="checkbox" name="emotions[]" value="funny and comedic" />Comedic</label>
+          </div>
+        </fieldset>
+      </div>
+    </details>
+
+    <!-- Submit -->
+    <button class="btn btn-primary btn-upload" id="analyzeBtn" disabled>
+      <span class="btn-label">Analyze Trailer</span>
+      <span class="btn-arrow" aria-hidden="true">→</span>
+    </button>
+
+  </div><!-- /.upload-card -->
+
+  <!-- ── Status bar ──────────────────────────────────────────────────────── -->
+  <div class="db-status" id="dbStatus"></div>
+</section>
+
+<!-- ═══ PROCESSING OVERLAY ═══════════════════════════════════════════════ -->
+<div class="processing-overlay hidden" id="processingOverlay" role="status" aria-live="polite">
+  <div class="processing-card">
+    <div class="spinner" aria-hidden="true"></div>
+    <h2 class="processing-title">Analyzing trailer…</h2>
+    <p class="processing-sub" id="processingMsg">Extracting genre and emotion tags</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

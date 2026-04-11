@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}CineSpike — Analysis History{% endblock %}
+
+{% block content %}
+<section class="history-section">
+  <div class="history-header">
+    <h1 class="section-heading">
+      <span class="section-icon" aria-hidden="true">📂</span> Analysis History
+    </h1>
+    <a href="/" class="btn btn-primary">+ New Analysis</a>
+  </div>
+
+  <!-- Loading state -->
+  <div id="historyLoading" class="section-center" aria-live="polite">
+    <div class="spinner" aria-label="Loading history"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="historyEmpty" class="section-center hidden">
+    <p class="hint">No analyses yet. <a href="/">Upload your first trailer →</a></p>
+  </div>
+
+  <!-- Table -->
+  <div id="historyTable" class="card hidden" style="padding:0; overflow:hidden;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Filename</th>
+          <th>Date &amp; Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="historyBody"></tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}
