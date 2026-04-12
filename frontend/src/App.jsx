@@ -11,6 +11,7 @@ const CampaignsPage = lazy(() => import('./pages/campaigns-page'))
 const HistoryPage = lazy(() => import('./pages/history-page'))
 const LoginPage = lazy(() => import('./pages/login-page'))
 const SignupPage = lazy(() => import('./pages/signup-page'))
+const LandingPage = lazy(() => import('./pages/landing-page'))
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Route>
+        <Route path="/" element={<LandingPage />} />
         <Route element={<AppShell />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="/app" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/analyze" element={<AnalyzePage />} />
           <Route path="/library" element={<LibraryPage />} />

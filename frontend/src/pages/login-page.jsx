@@ -3,15 +3,24 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input'
+import { useProfileStore } from '../store/profile-store'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { hydrateProfileFromAuth } = useProfileStore()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
+    const username = email.split('@')[0]?.trim() || ''
+
+    hydrateProfileFromAuth({
+      username,
+      name: username || '',
+      email,
+    })
     setMessage('Auth UI is ready, but backend login is not connected yet. For now, this takes you into the product shell.')
     window.setTimeout(() => {
       navigate('/dashboard')
@@ -22,10 +31,8 @@ export default function LoginPage() {
     <Card className="rounded-[32px]">
       <CardHeader className="p-8 pb-4">
         <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-500">Welcome back</p>
-        <CardTitle className="text-3xl">Log in to CineSpike</CardTitle>
-        <CardDescription>
-          Access your analysis workspace, campaign planning surface, and trailer history.
-        </CardDescription>
+        <CardTitle className="text-3xl">Log in</CardTitle>
+        <CardDescription>Enter your email and password to continue.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6 p-8 pt-2">
         <form className="space-y-5" onSubmit={handleSubmit}>
@@ -44,14 +51,9 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-slate-700" htmlFor="login-password">
-                Password
-              </label>
-              <button type="button" className="text-sm text-indigo-600 transition hover:text-indigo-700">
-                Forgot password?
-              </button>
-            </div>
+            <label className="text-sm font-medium text-slate-700" htmlFor="login-password">
+              Password
+            </label>
             <Input
               id="login-password"
               type="password"
@@ -72,15 +74,6 @@ export default function LoginPage() {
             Log In
           </Button>
         </form>
-
-        <div className="grid gap-3">
-          <Button variant="secondary" size="lg" type="button">
-            Continue with Google
-          </Button>
-          <Button variant="secondary" size="lg" type="button">
-            Continue with Microsoft
-          </Button>
-        </div>
 
         <p className="text-center text-sm text-slate-500">
           New to CineSpike?{' '}
