@@ -1,8 +1,8 @@
 # CineSpike 🎬
 
-> AI-powered movie trailer analysis — instantly generate genre tags, find comparable films, profile Reddit audiences, and generate deep-dive AI marketing campaigns completely offline!
+> AI-powered movie trailer analysis — instantly generate genre tags, find comparable films, profile Reddit audiences, and generate deep-dive AI marketing campaigns locally through your Flask backend.
 
-Welcome to CineSpike! This repository contains a full-stack Flask application. The backend handles the heavy lifting (Local LLM via Ollama, ChromaDB vector search, algorithmic tagging) while the frontend is a clean, API-driven HTML/CSS/JS interface.
+Welcome to CineSpike! This repository contains a full-stack Flask application. The backend handles the heavy lifting (Groq-powered campaign generation, ChromaDB vector search, algorithmic tagging) while the frontend is a clean, API-driven interface.
 
 ---
 
@@ -46,17 +46,21 @@ Open **[http://localhost:5000](http://localhost:5000)** in your browser.
 
 ---
 
-## 🤖 (Optional) Hooking up "Ollama" for AI Campaigns
+## 🤖 (Optional) Hooking up Groq for AI Campaigns
 
-On the results dashboard, there is a **Generate AI Strategy (Local)** button. This button connects to your local machine's AI to write a highly detailed Reddit-focused marketing campaign based on the trailer data.
+On the results dashboard, there is a **Generate AI Strategy** button. This button calls the Flask backend, which uses Groq to write a detailed Reddit-focused marketing campaign based on the trailer data.
 
 To make this button work:
-1. Download and install **[Ollama](https://ollama.com/)**
-2. Open your terminal and run:
+1. Create a Groq API key at **[https://console.groq.com/keys](https://console.groq.com/keys)**
+2. Add it to your `.env`:
    ```bash
-   ollama run llama3
+   GROQ_API_KEY=your_key_here
    ```
-3. Keep Ollama running in the background. Now, when you click the button in CineSpike, it will use Llama 3 to write your campaign!
+3. Optional: choose a model:
+   ```bash
+   GROQ_MODEL=llama-3.3-70b-versatile
+   ```
+4. Restart Flask. Now, when you click the button in CineSpike, the backend will generate the campaign through Groq.
 
 ---
 
@@ -72,7 +76,7 @@ Open `static/css/style.css`. Scroll to the very top to the `:root` section. Chan
 - The dashboard layout is in `templates/results.html`. To add new widgets, simply add `div` containers in the HTML exactly where you want them.
 
 ### **Want to change the AI prompt or reasoning logic?**
-Open `release_planner.py`. Look for the `generate_ollama_campaign` function. You can tweak the massive text prompt sent to Llama 3 to make it focus on whatever you want (e.g., "Write a TikTok campaign instead of a Reddit campaign").
+Open `release_planner.py`. Look for the `generate_ai_campaign` function. You can tweak the prompt sent to Groq to make it focus on whatever you want.
 
 ### **Want to change how charts look?**
 Open `static/js/results.js`. We use `Chart.js`. Scroll down to the `renderRelease()` function and you can change the graph colors, axis labels, and animations there.
@@ -84,7 +88,7 @@ Open `static/js/results.js`. We use `Chart.js`. Scroll down to the `renderReleas
 filmspike/
 ├── app.py               → The main brain. Starts the server and defines APIs.
 ├── ingest.py            → Downloads TMDB movies + embeds them.
-├── release_planner.py   → Talks to Ollama to generate campaign strategies.
+├── release_planner.py   → Generates release plans and Groq-backed campaign strategies.
 ├── vector_store.py      → Searches ChromaDB for similar movies.
 ├── tag_generator.py     → Uses CLIP (if installed) to watch your trailer.
 ├── reddit_mapper.py     → Synthetic mapping of movie genres to subreddits.

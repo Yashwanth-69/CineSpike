@@ -175,7 +175,7 @@ def api_results(analysis_id):
 @app.route("/api/generate_campaign/<analysis_id>", methods=["POST"])
 def api_generate_campaign(analysis_id):
     """
-    On-demand AI deep-dive campaign generation using local Ollama.
+    On-demand AI deep-dive campaign generation using Groq.
     """
     with get_db() as conn:
         row = conn.execute(
@@ -190,10 +190,10 @@ def api_generate_campaign(analysis_id):
     top_movies = json.loads(row["top_movies_json"] or "[]")
     audience   = json.loads(row["audience_json"] or "{}")
 
-    # Call Ollama
-    from release_planner import generate_ollama_campaign
+    # Call Groq-backed campaign generator
+    from release_planner import generate_ai_campaign
     try:
-        campaign = generate_ollama_campaign(tags, top_movies, audience)
+        campaign = generate_ai_campaign(tags, top_movies, audience)
     except Exception as e:
         return jsonify({"error": f"Failed to generate campaign: {str(e)}"}), 500
 
