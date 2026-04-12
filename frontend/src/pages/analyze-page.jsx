@@ -126,22 +126,22 @@ export default function AnalyzePage() {
           <CardContent className="space-y-6">
             <motion.div
               whileHover={{ y: -4 }}
-              className={`rounded-[28px] border border-dashed p-8 text-center transition ${dropzone.isDragActive ? 'border-fuchsia-400/50 bg-fuchsia-500/10' : 'border-white/12 bg-white/[0.04]'}`}
+              className={`rounded-[28px] border border-dashed p-8 text-center transition ${dropzone.isDragActive ? 'border-indigo-300 bg-indigo-50' : 'border-slate-200 bg-slate-50'}`}
               {...dropzone.getRootProps()}
             >
               <input {...dropzone.getInputProps()} />
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-linear-to-br from-pink-500/20 via-fuchsia-500/20 to-blue-500/20 text-white">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-linear-to-br from-sky-100 via-indigo-100 to-fuchsia-100 text-indigo-600">
                 <Upload className="h-7 w-7" />
               </div>
-              <h3 className="mt-5 text-xl font-semibold text-white">Drag and drop your trailer here</h3>
-              <p className="mt-2 text-sm text-zinc-400">MP4, MOV, AVI, or MKV up to 500MB. Click to browse if you prefer.</p>
+              <h3 className="mt-5 text-xl font-semibold text-slate-950">Drag and drop your trailer here</h3>
+              <p className="mt-2 text-sm text-slate-500">MP4, MOV, AVI, or MKV up to 500MB. Click to browse if you prefer.</p>
             </motion.div>
 
             {selectedFile ? (
-              <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+              <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                 <div>
-                  <p className="text-sm text-zinc-400">Selected file</p>
-                  <p className="text-white">{selectedFile.name}</p>
+                  <p className="text-sm text-slate-500">Selected file</p>
+                  <p className="text-slate-950">{selectedFile.name}</p>
                 </div>
                 <Button variant="ghost" size="icon" type="button" onClick={() => setSelectedFile(null)}>
                   <X className="h-4 w-4" />
@@ -149,15 +149,15 @@ export default function AnalyzePage() {
               </div>
             ) : null}
 
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div>
-                <p className="font-medium text-white">Manual tag override</p>
-                <p className="text-sm text-zinc-400">Use this when you want controlled genres or emotional tone instead of automatic detection.</p>
+                <p className="font-medium text-slate-950">Manual tag override</p>
+                <p className="text-sm text-slate-500">Use this when you want controlled genres or emotional tone instead of automatic detection.</p>
               </div>
               <button
                 type="button"
                 onClick={() => setManualMode((current) => !current)}
-                className={`relative h-7 w-14 rounded-full transition ${manualMode ? 'bg-linear-to-r from-pink-500 to-blue-500' : 'bg-zinc-700'}`}
+                className={`relative h-7 w-14 rounded-full transition ${manualMode ? 'bg-linear-to-r from-sky-500 to-indigo-500' : 'bg-slate-300'}`}
               >
                 <span className={`absolute top-1 h-5 w-5 rounded-full bg-white transition ${manualMode ? 'left-8' : 'left-1'}`} />
               </button>
@@ -186,7 +186,7 @@ export default function AnalyzePage() {
               <Button type="button" className="min-w-44" onClick={handleAnalyze} disabled={isSubmitting}>
                 {isSubmitting ? 'Analyzing Trailer...' : 'Analyze Trailer'}
               </Button>
-              <p className="text-sm text-zinc-400">{healthLabel}</p>
+              <p className="text-sm text-slate-500">{healthLabel}</p>
             </div>
           </CardContent>
         </Card>
@@ -198,13 +198,13 @@ export default function AnalyzePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {statusSteps.map((step, index) => (
-              <div key={step} className="flex items-start gap-4 rounded-2xl border border-white/8 bg-black/20 p-4">
-                <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/8 text-sm font-semibold text-white">
+              <div key={step} className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm font-semibold text-slate-700 shadow-sm">
                   {index + 1}
                 </div>
                 <div>
-                  <p className="font-medium text-white">{step}</p>
-                  <p className="mt-1 text-sm text-zinc-400">Same backend logic, now surfaced inside a modular React workflow.</p>
+                  <p className="font-medium text-slate-950">{step}</p>
+                  <p className="mt-1 text-sm text-slate-500">Same backend logic, now surfaced inside a modular React workflow.</p>
                 </div>
               </div>
             ))}
@@ -217,8 +217,8 @@ export default function AnalyzePage() {
 
 function SelectionPanel({ title, items, selected, onToggle }) {
   return (
-    <div className="space-y-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-      <p className="text-sm font-medium text-white">{title}</p>
+    <div className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <p className="text-sm font-medium text-slate-950">{title}</p>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => {
           const active = selected.includes(item)
@@ -227,7 +227,7 @@ function SelectionPanel({ title, items, selected, onToggle }) {
               key={item}
               type="button"
               onClick={() => onToggle(item)}
-              className={`rounded-full border px-3 py-1.5 text-sm transition ${active ? 'border-fuchsia-400/40 bg-fuchsia-500/12 text-fuchsia-100' : 'border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10'}`}
+              className={`rounded-full border px-3 py-1.5 text-sm transition ${active ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100'}`}
             >
               {item}
             </button>

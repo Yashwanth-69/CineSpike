@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
-const COLORS = ['#ec4899', '#d946ef', '#3b82f6', '#22c55e']
+const COLORS = ['#60a5fa', '#818cf8', '#2dd4bf', '#a78bfa']
 
 export default function AudienceDonutChart({ genderSplit }) {
   const data = Object.entries(genderSplit || {}).map(([name, value]) => ({ name, value }))
@@ -15,7 +15,7 @@ export default function AudienceDonutChart({ genderSplit }) {
             ))}
           </Pie>
           <Tooltip
-            contentStyle={{ background: '#0c0d13', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16 }}
+            contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 16, color: '#0f172a' }}
           />
         </PieChart>
       </ResponsiveContainer>

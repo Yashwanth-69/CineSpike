@@ -1,11 +1,11 @@
 import { cn } from '../../lib/utils'
 
 const variants = {
-  default: 'bg-linear-to-r from-pink-500 via-fuchsia-500 to-blue-500 text-white shadow-[0_20px_80px_-30px_rgba(217,70,239,0.8)] hover:brightness-110',
-  secondary: 'border border-white/12 bg-white/6 text-zinc-100 hover:bg-white/10',
-  ghost: 'text-zinc-300 hover:bg-white/6 hover:text-white',
-  outline: 'border border-white/14 bg-transparent text-zinc-100 hover:bg-white/8',
-  danger: 'border border-red-400/30 bg-red-500/10 text-red-100 hover:bg-red-500/20',
+  default: 'bg-linear-to-r from-sky-500 via-indigo-500 to-fuchsia-500 text-white shadow-[0_18px_36px_-18px_rgba(99,102,241,0.45)] hover:scale-[1.01] hover:shadow-[0_22px_40px_-20px_rgba(99,102,241,0.42)]',
+  secondary: 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900',
+  ghost: 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
+  outline: 'border border-slate-200 bg-transparent text-slate-700 hover:bg-slate-50',
+  danger: 'border border-red-200 bg-red-50 text-red-700 hover:bg-red-100',
 }
 
 const sizes = {
@@ -27,7 +27,7 @@ export function Button({
   return (
     <Comp
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60 disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 disabled:pointer-events-none disabled:opacity-50',
         variants[variant],
         sizes[size],
         className,

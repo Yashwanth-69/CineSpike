@@ -13,16 +13,16 @@ export default function ReleaseDistributionChart({ distribution, recommendedMont
     <div className="h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
-          <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
-          <XAxis dataKey="name" stroke="#71717a" tickLine={false} axisLine={false} />
-          <YAxis stroke="#71717a" tickLine={false} axisLine={false} />
+          <CartesianGrid stroke="#e2e8f0" vertical={false} />
+          <XAxis dataKey="name" stroke="#64748b" tickLine={false} axisLine={false} />
+          <YAxis stroke="#64748b" tickLine={false} axisLine={false} />
           <Tooltip
-            cursor={{ fill: 'rgba(255,255,255,0.04)' }}
-            contentStyle={{ background: '#0c0d13', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16 }}
+            cursor={{ fill: 'rgba(99,102,241,0.05)' }}
+            contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 16, color: '#0f172a' }}
           />
           <Bar dataKey="value" radius={[12, 12, 0, 0]}>
             {data.map((entry) => (
-              <Cell key={entry.month} fill={entry.month === recommendedMonth ? '#ec4899' : 'rgba(139,92,246,0.45)'} />
+              <Cell key={entry.month} fill={entry.month === recommendedMonth ? '#6366f1' : '#cbd5e1'} />
             ))}
           </Bar>
         </BarChart>

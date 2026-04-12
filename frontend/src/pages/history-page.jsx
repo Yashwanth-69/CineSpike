@@ -51,7 +51,7 @@ export default function HistoryPage() {
         }
       />
 
-      {loading ? <div className="text-sm text-zinc-400">Loading history...</div> : null}
+      {loading ? <div className="text-sm text-slate-500">Loading history...</div> : null}
       {error ? <div className="text-sm text-red-300">{error}</div> : null}
 
       {!loading && !rows.length ? (

@@ -1,12 +1,12 @@
 import { cn } from '../../lib/utils'
 
 const variants = {
-  default: 'border-white/12 bg-white/10 text-zinc-100',
-  genre: 'border-fuchsia-400/25 bg-fuchsia-500/10 text-fuchsia-100',
-  emotion: 'border-blue-400/25 bg-blue-500/10 text-blue-100',
-  keyword: 'border-pink-400/25 bg-pink-500/10 text-pink-100',
-  success: 'border-emerald-400/25 bg-emerald-500/10 text-emerald-100',
-  warning: 'border-amber-400/25 bg-amber-500/10 text-amber-100',
+  default: 'border-slate-200 bg-slate-50 text-slate-700',
+  genre: 'border-indigo-200 bg-indigo-50 text-indigo-700',
+  emotion: 'border-sky-200 bg-sky-50 text-sky-700',
+  keyword: 'border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700',
+  success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+  warning: 'border-amber-200 bg-amber-50 text-amber-700',
 }
 
 export function Badge({ className, variant = 'default', ...props }) {

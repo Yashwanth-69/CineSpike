@@ -310,12 +310,12 @@ function fmtMoney(n) {
   return n.toLocaleString();
 }
 
-// ── Section 5: AI Campaign (Ollama) ──────────────────────────────────────────
+// ── Section 5: AI Campaign (Groq) ────────────────────────────────────────────
 const btnGenerateCampaign = document.getElementById('btnGenerateCampaign');
 if (btnGenerateCampaign) {
   btnGenerateCampaign.addEventListener('click', async () => {
     const label = document.getElementById('btnGenerateCampaignLabel');
-    label.textContent = 'Ollama is thinking...';
+    label.textContent = 'Generating strategy...';
     btnGenerateCampaign.disabled = true;
 
     try {
@@ -326,7 +326,7 @@ if (btnGenerateCampaign) {
       renderCampaign(data);
     } catch (err) {
       alert(err.message);
-      label.textContent = 'Generate AI Strategy (Local)';
+      label.textContent = 'Generate AI Strategy';
       btnGenerateCampaign.disabled = false;
     }
   });
@@ -359,4 +359,3 @@ function renderCampaign(campaign) {
     });
   }
 }
-

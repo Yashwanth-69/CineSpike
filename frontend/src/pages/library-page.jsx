@@ -50,7 +50,7 @@ export default function LibraryPage() {
   }
 
   if (!analysis) {
-    return <div className="text-sm text-zinc-400">Loading similar films...</div>
+    return <div className="text-sm text-slate-500">Loading similar films...</div>
   }
 
   return (

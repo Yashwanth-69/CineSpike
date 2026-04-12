@@ -19,7 +19,7 @@ export default function HistoryTable({ rows, onDelete }) {
         {rows.map((row, index) => (
           <TableRow key={row.id}>
             <TableCell>{rows.length - index}</TableCell>
-            <TableCell className="font-medium text-white">{row.filename}</TableCell>
+            <TableCell className="font-medium text-slate-950">{row.filename}</TableCell>
             <TableCell>{formatDate(row.timestamp)}</TableCell>
             <TableCell>
               <div className="flex justify-end gap-2">

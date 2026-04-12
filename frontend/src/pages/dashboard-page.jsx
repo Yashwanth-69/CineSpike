@@ -81,15 +81,15 @@ export default function DashboardPage() {
             {currentAnalysis ? (
               <>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-white/8 bg-black/20 p-4">
-                    <p className="text-sm text-zinc-500">Trailer</p>
-                    <p className="mt-2 text-lg font-semibold text-white">{currentAnalysis.filename}</p>
-                    <p className="mt-1 text-sm text-zinc-400">{formatDate(currentAnalysis.timestamp)}</p>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm text-slate-500">Trailer</p>
+                    <p className="mt-2 text-lg font-semibold text-slate-950">{currentAnalysis.filename}</p>
+                    <p className="mt-1 text-sm text-slate-500">{formatDate(currentAnalysis.timestamp)}</p>
                   </div>
-                  <div className="rounded-2xl border border-white/8 bg-black/20 p-4">
-                    <p className="text-sm text-zinc-500">Recommended Release Window</p>
-                    <p className="mt-2 text-lg font-semibold text-white">{currentAnalysis.release_plan?.recommended_month_name || 'Not available yet'}</p>
-                    <p className="mt-1 text-sm text-zinc-400">{currentAnalysis.release_plan?.season_label || 'Run a trailer analysis to generate timing guidance.'}</p>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm text-slate-500">Recommended Release Window</p>
+                    <p className="mt-2 text-lg font-semibold text-slate-950">{currentAnalysis.release_plan?.recommended_month_name || 'Not available yet'}</p>
+                    <p className="mt-1 text-sm text-slate-500">{currentAnalysis.release_plan?.season_label || 'Run a trailer analysis to generate timing guidance.'}</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3">
@@ -105,9 +105,9 @@ export default function DashboardPage() {
                 </div>
               </>
             ) : (
-              <div className="rounded-2xl border border-dashed border-white/12 bg-white/[0.03] p-6">
-                <p className="text-lg font-semibold text-white">No active analysis yet</p>
-                <p className="mt-2 max-w-xl text-sm text-zinc-400">
+              <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6">
+                <p className="text-lg font-semibold text-slate-950">No active analysis yet</p>
+                <p className="mt-2 max-w-xl text-sm text-slate-500">
                   Start with the Analyze page to upload a trailer. Once the backend finishes processing, the rest of the product surfaces will populate automatically.
                 </p>
               </div>
@@ -127,11 +127,11 @@ export default function DashboardPage() {
               'Review comparable films and release timing.',
               'Package the release plan into an AI-generated campaign.',
             ].map((step, index) => (
-              <div key={step} className="flex gap-4 rounded-2xl border border-white/8 bg-black/20 p-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-pink-500 to-blue-500 text-sm font-semibold text-white">
+              <div key={step} className="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-indigo-500 text-sm font-semibold text-white">
                   {index + 1}
                 </div>
-                <p className="text-sm leading-6 text-zinc-300">{step}</p>
+                <p className="text-sm leading-6 text-slate-600">{step}</p>
               </div>
             ))}
           </CardContent>

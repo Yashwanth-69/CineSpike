@@ -7,7 +7,7 @@ export default function AppShell() {
   const location = useLocation()
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(236,72,153,0.18),_transparent_26%),radial-gradient(circle_at_80%_10%,_rgba(59,130,246,0.18),_transparent_24%),linear-gradient(180deg,_#06070a_0%,_#0b0d14_45%,_#05060a_100%)] text-zinc-100">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(129,140,248,0.14),_transparent_28%),radial-gradient(circle_at_78%_8%,_rgba(236,72,153,0.10),_transparent_24%),linear-gradient(180deg,_#f8fafc_0%,_#f8fafc_55%,_#eef4ff_100%)] text-slate-900">
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="flex min-h-screen flex-1 flex-col">

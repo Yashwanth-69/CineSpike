@@ -71,7 +71,7 @@ export default function InsightsPage() {
   }
 
   if (!analysis) {
-    return <div className="text-sm text-zinc-400">Loading insights...</div>
+    return <div className="text-sm text-slate-500">Loading insights...</div>
   }
 
   return (
@@ -132,7 +132,7 @@ export default function InsightsPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-3">
-              <p className="text-sm font-medium text-zinc-300">Primary Communities</p>
+              <p className="text-sm font-medium text-slate-700">Primary Communities</p>
               <div className="grid gap-4 md:grid-cols-2">
                 {analysis.audience?.primary_subreddits?.map((community) => (
                   <CommunityCard key={community.name} community={community} />
@@ -140,7 +140,7 @@ export default function InsightsPage() {
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-sm font-medium text-zinc-300">Secondary Communities</p>
+              <p className="text-sm font-medium text-slate-700">Secondary Communities</p>
               <div className="grid gap-4 md:grid-cols-2">
                 {analysis.audience?.secondary_subreddits?.map((community) => (
                   <CommunityCard key={community.name} community={community} />
@@ -156,14 +156,14 @@ export default function InsightsPage() {
             <CardDescription>Audience age range and gender composition derived from the backend profile.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
-            <div className="rounded-2xl border border-white/8 bg-black/20 p-4">
-              <p className="text-sm text-zinc-500">Age Range</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{analysis.audience?.demographics?.age_range || 'Unknown'}</p>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm text-slate-500">Age Range</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-950">{analysis.audience?.demographics?.age_range || 'Unknown'}</p>
             </div>
             <AudienceDonutChart genderSplit={genderSplit} />
             <div className="flex flex-wrap gap-2">
               {Object.entries(genderSplit).map(([label, value]) => (
-                <div key={label} className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-sm text-zinc-200">
+                <div key={label} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-700">
                   {label}: {value}%
                 </div>
               ))}
@@ -180,16 +180,16 @@ export default function InsightsPage() {
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-3 xl:grid-cols-1">
             {['low', 'mid', 'high'].map((key) => (
-              <div key={key} className="rounded-2xl border border-white/8 bg-black/20 p-4">
-                <p className="text-sm uppercase tracking-[0.24em] text-zinc-500">{key}</p>
-                <p className="mt-2 text-xl font-semibold text-white">{formatMoney(analysis.audience?.box_office_estimate?.[key] || 0)}</p>
+              <div key={key} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-sm uppercase tracking-[0.24em] text-slate-500">{key}</p>
+                <p className="mt-2 text-xl font-semibold text-slate-950">{formatMoney(analysis.audience?.box_office_estimate?.[key] || 0)}</p>
               </div>
             ))}
-            <div className="rounded-2xl border border-white/8 bg-black/20 p-4">
-              <p className="text-sm text-zinc-500">Recommended channels</p>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm text-slate-500">Recommended channels</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {analysis.audience?.marketing_recommendations?.map((item) => (
-                  <span key={item.platform} className="rounded-full border border-white/10 px-3 py-1 text-sm text-zinc-200">
+                  <span key={item.platform} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-700">
                     {item.platform}
                   </span>
                 ))}

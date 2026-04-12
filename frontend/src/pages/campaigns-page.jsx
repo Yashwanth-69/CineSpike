@@ -82,7 +82,7 @@ export default function CampaignsPage() {
   }
 
   if (!analysis) {
-    return <div className="text-sm text-zinc-400">Loading campaign workspace...</div>
+    return <div className="text-sm text-slate-500">Loading campaign workspace...</div>
   }
 
   const releasePlan = analysis.release_plan || {}
@@ -116,15 +116,15 @@ export default function CampaignsPage() {
             <CardDescription>Rule-based planning from your existing Flask service.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
-            <div className="rounded-[28px] border border-pink-400/20 bg-linear-to-br from-pink-500/14 via-fuchsia-500/10 to-blue-500/10 p-6">
-              <p className="text-sm uppercase tracking-[0.28em] text-zinc-400">Recommended Month</p>
-              <h2 className="mt-3 text-4xl font-semibold text-white">{releasePlan.recommended_month_name || 'N/A'}</h2>
-              <p className="mt-2 text-zinc-300">{releasePlan.recommended_quarter}</p>
-              <p className="mt-1 text-sm text-zinc-400">{releasePlan.season_label}</p>
+            <div className="rounded-[28px] border border-indigo-100 bg-linear-to-br from-sky-50 via-indigo-50 to-fuchsia-50 p-6">
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Recommended Month</p>
+              <h2 className="mt-3 text-4xl font-semibold text-slate-950">{releasePlan.recommended_month_name || 'N/A'}</h2>
+              <p className="mt-2 text-slate-700">{releasePlan.recommended_quarter}</p>
+              <p className="mt-1 text-sm text-slate-500">{releasePlan.season_label}</p>
             </div>
-            <div className="space-y-3 rounded-2xl border border-white/8 bg-black/20 p-5">
-              <p className="text-sm font-medium text-white">Strategic rationale</p>
-              <p className="text-sm leading-6 text-zinc-400">{releasePlan.reasoning}</p>
+            <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-medium text-slate-950">Strategic rationale</p>
+              <p className="text-sm leading-6 text-slate-500">{releasePlan.reasoning}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {releasePlan.avoid_months?.map((month) => (
@@ -133,9 +133,9 @@ export default function CampaignsPage() {
                 </Badge>
               ))}
             </div>
-            <div className="rounded-2xl border border-white/8 bg-black/20 p-5">
-              <p className="text-sm font-medium text-white">Comparable revenue midpoint</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{formatMoney(analysis.audience?.box_office_estimate?.mid || 0)}</p>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <p className="text-sm font-medium text-slate-950">Comparable revenue midpoint</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-950">{formatMoney(analysis.audience?.box_office_estimate?.mid || 0)}</p>
             </div>
           </CardContent>
         </Card>
@@ -155,28 +155,28 @@ export default function CampaignsPage() {
         <Card>
           <CardHeader>
             <CardTitle>AI Campaign Strategy</CardTitle>
-            <CardDescription>Ollama-backed campaign output surfaced inside a modular React view.</CardDescription>
+            <CardDescription>Groq-backed campaign output surfaced inside a modular React view.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {campaign ? (
               <>
-                <div className="rounded-3xl border border-white/8 bg-black/20 p-6">
-                  <p className="text-sm uppercase tracking-[0.28em] text-zinc-500">Core concept</p>
-                  <p className="mt-3 text-lg leading-8 text-white">{campaign.overview}</p>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Core concept</p>
+                  <p className="mt-3 text-lg leading-8 text-slate-950">{campaign.overview}</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/8 bg-black/20 p-5">
-                  <p className="text-sm font-medium text-white">Release timeline context</p>
-                  <p className="mt-3 text-sm leading-7 text-zinc-400">{campaign.release_analysis}</p>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm font-medium text-slate-950">Release timeline context</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-500">{campaign.release_analysis}</p>
                 </div>
 
                 <div className="grid gap-4 xl:grid-cols-2">
                   {campaign.phases?.map((phase) => (
-                    <div key={phase.name} className="rounded-2xl border border-white/8 bg-black/20 p-5">
-                      <p className="text-base font-semibold text-white">{phase.name}</p>
+                    <div key={phase.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                      <p className="text-base font-semibold text-slate-950">{phase.name}</p>
                       <div className="mt-4 space-y-3">
                         {phase.tactics?.map((tactic) => (
-                          <div key={tactic} className="rounded-xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-zinc-300">
+                          <div key={tactic} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
                             {tactic}
                           </div>
                         ))}
@@ -185,9 +185,9 @@ export default function CampaignsPage() {
                   ))}
                 </div>
 
-                <div className="rounded-2xl border border-pink-400/20 bg-linear-to-r from-pink-500/14 via-fuchsia-500/10 to-blue-500/10 p-6">
-                  <p className="text-sm uppercase tracking-[0.28em] text-zinc-500">Guerrilla marketing hero tactic</p>
-                  <p className="mt-3 text-base leading-7 text-white">{campaign.guerrilla_marketing}</p>
+                <div className="rounded-2xl border border-indigo-100 bg-linear-to-r from-sky-50 via-indigo-50 to-fuchsia-50 p-6">
+                  <p className="text-sm uppercase tracking-[0.28em] text-slate-500">Guerrilla marketing hero tactic</p>
+                  <p className="mt-3 text-base leading-7 text-slate-950">{campaign.guerrilla_marketing}</p>
                 </div>
               </>
             ) : (

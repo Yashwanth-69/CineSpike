@@ -1,9 +1,7 @@
 """
 release_planner.py
 Recommends optimal release window using historical data from top-10 movies.
-Primary: Groq API (free, fast). Fallback: pure rule-based analysis.
-
-Set GROQ_API_KEY in .env to enable LLM reasoning.
+Campaign generation uses Groq's chat completions API when a GROQ_API_KEY is set.
 """
 
 import os
@@ -13,6 +11,9 @@ from collections import Counter
 from dotenv import load_dotenv
 
 load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile").strip()
 
 MONTH_NAMES = {
     1: "January",   2: "February", 3: "March",     4: "April",
@@ -119,10 +120,10 @@ def _match_genre(raw: str) -> str:
     return "drama"
 
 
-def generate_ollama_campaign(tags: dict, top_movies: list, audience: dict) -> dict:
+def generate_ai_campaign(tags: dict, top_movies: list, audience: dict) -> dict:
     """
-    On-demand campaign generation using local Ollama (Llama 3).
-    Expects Ollama to be running on localhost:11434.
+    On-demand campaign generation using the Groq chat completions API.
+    Requires GROQ_API_KEY in the environment.
     """
     lines = "\n".join(
         f"- {m.get('title', '?')} ({m.get('release_date', '?')})" for m in top_movies[:10]
@@ -170,26 +171,49 @@ Create a structured AI campaign strategy. You MUST reply in valid, parseable JSO
 JSON only:
 """
 
+    if not GROQ_API_KEY:
+        raise Exception("Groq is not configured. Add GROQ_API_KEY to your .env file.")
+
     try:
         resp = requests.post(
-            "http://localhost:11434/api/generate",
-            json={
-                "model": "llama3:latest",
-                "prompt": prompt,
-                "format": "json",
-                "stream": False,
-                "temperature": 0.7
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json",
             },
-            timeout=180
+            json={
+                "model": GROQ_MODEL,
+                "temperature": 0.7,
+                "response_format": {"type": "json_object"},
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a precise marketing strategist. Respond with valid JSON only.",
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    },
+                ],
+            },
+            timeout=180,
         )
         resp.raise_for_status()
         data = resp.json()
-        response_text = data.get("response", "{}")
-        
-        # Ensure it parses
+        response_text = (
+            data.get("choices", [{}])[0]
+            .get("message", {})
+            .get("content", "{}")
+        )
+
         parsed = json.loads(response_text)
         return parsed
-    except requests.exceptions.ConnectionError:
-        raise Exception("Ollama is not running locally. Please start Ollama processing llama3.")
+    except requests.exceptions.HTTPError as exc:
+        detail = exc.response.text if exc.response is not None else str(exc)
+        raise Exception(f"Groq request failed: {detail}")
     except Exception as exc:
         raise Exception(f"Failed to generate campaign: {str(exc)}")
+
+
+# Backward-compatible alias for existing imports.
+generate_ollama_campaign = generate_ai_campaign
