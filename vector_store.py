@@ -8,7 +8,7 @@ import os
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-CHROMA_PATH     = "./chroma_db"
+CHROMA_PATH     = os.getenv("CHROMA_PATH", "./chroma_db")
 COLLECTION_NAME = "movies"
 
 _client     = None
