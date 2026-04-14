@@ -44,6 +44,77 @@ python app.py
 ```
 Open **[http://localhost:5000](http://localhost:5000)** in your browser.
 
+## Deployment Plan
+
+This repo is set up to deploy cleanly with:
+
+- `frontend/` on Vercel
+- Python Flask backend on Render
+
+### 1. Deploy the backend to Render
+
+The repo includes [render.yaml](/Volumes/KATHAL%20PADADAM/PROJECTS/CineSpike/render.yaml), which defines a Python web service, a persistent disk, and the key environment paths for SQLite, uploads, and ChromaDB.
+
+Use these settings:
+
+```bash
+Build Command: pip install -r requirements.txt
+Start Command: gunicorn app:app
+Health Check Path: /api/health
+```
+
+Important environment variables on Render:
+
+```bash
+FRONTEND_ORIGIN=https://your-frontend-domain.vercel.app
+GROQ_API_KEY=your_key_here
+SECRET_KEY=generate_a_real_secret
+UPLOAD_FOLDER=/var/data/uploads
+DB_PATH=/var/data/cinespike.db
+CHROMA_PATH=/var/data/chroma_db
+DATA_DIR=/var/data/data
+```
+
+### 2. Populate the vector database on Render
+
+The app can run without ingestion, but recommendations will be much better after the ChromaDB store is populated.
+
+Run once in a Render shell:
+
+```bash
+python ingest.py
+```
+
+Because the service mounts a persistent disk, the generated SQLite DB, uploads, and ChromaDB files survive redeploys.
+
+### 3. Deploy the frontend to Vercel
+
+Create a Vercel project using the `frontend/` directory as the root.
+
+Set this environment variable in Vercel:
+
+```bash
+VITE_API_BASE_URL=https://your-render-service.onrender.com
+```
+
+Build settings:
+
+```bash
+Framework Preset: Vite
+Root Directory: frontend
+Build Command: npm run build
+Output Directory: dist
+```
+
+### 4. Connect both sides
+
+After Vercel gives you a production URL:
+
+1. Add that URL to Render as `FRONTEND_ORIGIN`
+2. Redeploy Render
+3. Confirm `https://your-render-service.onrender.com/api/health` works
+4. Confirm the Vercel app can upload and fetch analysis data
+
 ---
 
 ## 🤖 (Optional) Hooking up Groq for AI Campaigns

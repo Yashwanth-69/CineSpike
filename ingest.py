@@ -18,8 +18,8 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DATA_DIR        = "./data"
-CHROMA_PATH     = "./chroma_db"
+DATA_DIR        = os.getenv("DATA_DIR", "./data")
+CHROMA_PATH     = os.getenv("CHROMA_PATH", "./chroma_db")
 COLLECTION_NAME = "movies"
 BATCH_SIZE      = 128
 

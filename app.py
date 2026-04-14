@@ -13,6 +13,7 @@ import sqlite3
 from datetime import datetime
 
 from flask import Flask, render_template, request, jsonify, abort
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
@@ -20,10 +21,15 @@ load_dotenv()
 
 # ── App Config ──────────────────────────────────────────────────────────────
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = "uploads"
+app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024  # 500 MB
 app.config["ALLOWED_EXTENSIONS"] = {"mp4", "mov", "avi", "mkv"}
-app.config["DB_PATH"] = "cinespike.db"
+app.config["DB_PATH"] = os.getenv("DB_PATH", "cinespike.db")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change_me_in_production")
+
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "").strip()
+cors_origins = [frontend_origin] if frontend_origin else "*"
+CORS(app, resources={r"/api/*": {"origins": cors_origins}})
 
 # ── DB helpers ───────────────────────────────────────────────────────────────
 def get_db():
@@ -33,6 +39,9 @@ def get_db():
 
 
 def init_db():
+    db_dir = os.path.dirname(app.config["DB_PATH"])
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
     with get_db() as conn:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS analyses (
@@ -60,6 +69,11 @@ def allowed_file(filename):
         "." in filename
         and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
     )
+
+
+def init_storage():
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    init_db()
 
 
 # ── Page Routes (thin shells — all data fetched by JS) ───────────────────────
@@ -240,6 +254,9 @@ def api_health():
 
 # ── Entry Point ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-    init_db()
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    init_storage()
+    port = int(os.getenv("PORT", "5000"))
+    app.run(debug=True, host="0.0.0.0", port=port)
+
+
+init_storage()
