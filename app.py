@@ -244,10 +244,19 @@ def api_delete(analysis_id):
 @app.route("/api/health")
 def api_health():
     """Quick health-check used by the upload page to verify backend."""
-    from vector_store import collection_count
+    db_movies = 0
+    status = "ok"
+    try:
+        from vector_store import collection_count
+        db_movies = collection_count()
+    except Exception:
+        # Keep health endpoint resilient so platform health checks don't fail
+        # if vector dependencies are still warming up.
+        status = "degraded"
+
     return jsonify({
-        "status": "ok",
-        "db_movies": collection_count(),
+        "status": status,
+        "db_movies": db_movies,
         "timestamp": datetime.now().isoformat(),
     })
 

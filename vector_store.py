@@ -5,7 +5,6 @@ Run `python ingest.py` ONCE before starting the server.
 """
 
 import os
-import chromadb
 
 CHROMA_PATH     = os.getenv("CHROMA_PATH", "./chroma_db")
 COLLECTION_NAME = "movies"
@@ -18,6 +17,7 @@ _model      = None
 def _init_collection():
     global _client, _collection, _model
     if _collection is None:
+        import chromadb
         _client     = chromadb.PersistentClient(path=CHROMA_PATH)
         _collection = _client.get_or_create_collection(
             name=COLLECTION_NAME,

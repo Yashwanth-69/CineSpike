@@ -5,12 +5,14 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { useProfileStore } from '../../store/profile-store'
 import ProfileSettingsModal from './profile-settings-modal'
+import { getHealthStatus } from '../../services/analysis-service'
 
 export default function Navbar() {
   const navigate = useNavigate()
   const { profile, resetProfile } = useProfileStore()
   const [menuOpen, setMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [backendStatus, setBackendStatus] = useState('checking')
   const menuRef = useRef(null)
 
   useEffect(() => {
@@ -26,6 +28,29 @@ export default function Navbar() {
     }
   }, [])
 
+  useEffect(() => {
+    let isMounted = true
+
+    async function checkBackendStatus() {
+      try {
+        const health = await getHealthStatus()
+        if (!isMounted) return
+        setBackendStatus(health?.status === 'ok' ? 'connected' : 'disconnected')
+      } catch {
+        if (!isMounted) return
+        setBackendStatus('disconnected')
+      }
+    }
+
+    checkBackendStatus()
+    const intervalId = setInterval(checkBackendStatus, 30000)
+
+    return () => {
+      isMounted = false
+      clearInterval(intervalId)
+    }
+  }, [])
+
   const displayName = profile.name || profile.username || 'N/A'
   const displayEmail = profile.email || 'N/A'
   const initials = displayName
@@ -37,6 +62,22 @@ export default function Navbar() {
 
   function displayValue(value) {
     return value?.toString().trim() ? value : 'N/A'
+  }
+
+  function backendStatusLabel() {
+    if (backendStatus === 'connected') return 'Backend connected'
+    if (backendStatus === 'disconnected') return 'Backend disconnected'
+    return 'Checking backend...'
+  }
+
+  function backendStatusClassName() {
+    if (backendStatus === 'connected') {
+      return 'hidden rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs text-emerald-700 sm:block'
+    }
+    if (backendStatus === 'disconnected') {
+      return 'hidden rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs text-rose-700 sm:block'
+    }
+    return 'hidden rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs text-amber-700 sm:block'
   }
 
   return (
@@ -61,8 +102,8 @@ export default function Navbar() {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
-          <div className="hidden rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs text-emerald-700 sm:block">
-            Backend connected
+          <div className={backendStatusClassName()}>
+            {backendStatusLabel()}
           </div>
           <Button variant="secondary" type="button" onClick={() => setSettingsOpen(true)}>
             <Settings className="h-4 w-4" />
