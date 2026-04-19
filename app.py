@@ -10,6 +10,7 @@ import os
 import json
 import uuid
 import sqlite3
+import threading
 from datetime import datetime
 
 from flask import Flask, render_template, request, jsonify, abort
@@ -30,6 +31,15 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change_me_in_production")
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "").strip()
 cors_origins = [frontend_origin] if frontend_origin else "*"
 CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+
+_ingest_lock = threading.Lock()
+_ingest_state = {
+    "running": False,
+    "last_started": None,
+    "last_completed": None,
+    "last_error": None,
+    "last_count": 0,
+}
 
 # ── DB helpers ───────────────────────────────────────────────────────────────
 def get_db():
@@ -74,6 +84,38 @@ def allowed_file(filename):
 def init_storage():
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
     init_db()
+
+
+def _ingest_status_payload():
+    return {
+        "running": _ingest_state["running"],
+        "last_started": _ingest_state["last_started"],
+        "last_completed": _ingest_state["last_completed"],
+        "last_error": _ingest_state["last_error"],
+        "db_movies": _ingest_state["last_count"],
+    }
+
+
+def _run_ingest_job():
+    try:
+        from ingest import ingest as run_ingest
+        run_ingest()
+        try:
+            from vector_store import collection_count
+            count = collection_count()
+        except Exception:
+            count = 0
+
+        with _ingest_lock:
+            _ingest_state["last_count"] = count
+            _ingest_state["last_error"] = None
+    except Exception as exc:
+        with _ingest_lock:
+            _ingest_state["last_error"] = str(exc)
+    finally:
+        with _ingest_lock:
+            _ingest_state["running"] = False
+            _ingest_state["last_completed"] = datetime.now().isoformat()
 
 
 # ── Page Routes (thin shells — all data fetched by JS) ───────────────────────
@@ -259,6 +301,49 @@ def api_health():
         "db_movies": db_movies,
         "timestamp": datetime.now().isoformat(),
     })
+
+
+@app.route("/api/admin/ingest", methods=["GET", "POST"])
+def api_admin_ingest():
+    """
+    Temporary endpoint for environments without shell access.
+    - GET  => ingest job status
+    - POST => trigger ingest in background thread (requires token)
+    """
+    if request.method == "GET":
+        try:
+            from vector_store import collection_count
+            with _ingest_lock:
+                _ingest_state["last_count"] = collection_count()
+        except Exception:
+            pass
+        with _ingest_lock:
+            return jsonify(_ingest_status_payload())
+
+    expected_token = os.getenv("INGEST_TRIGGER_TOKEN", "").strip() or app.config["SECRET_KEY"]
+    provided_token = request.headers.get("X-Ingest-Token", "").strip()
+    if not expected_token or provided_token != expected_token:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    with _ingest_lock:
+        if _ingest_state["running"]:
+            return jsonify({
+                "status": "already_running",
+                **_ingest_status_payload(),
+            }), 202
+
+        _ingest_state["running"] = True
+        _ingest_state["last_started"] = datetime.now().isoformat()
+        _ingest_state["last_error"] = None
+
+    thread = threading.Thread(target=_run_ingest_job, daemon=True)
+    thread.start()
+
+    with _ingest_lock:
+        return jsonify({
+            "status": "started",
+            **_ingest_status_payload(),
+        }), 202
 
 
 # ── Entry Point ──────────────────────────────────────────────────────────────
