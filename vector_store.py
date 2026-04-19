@@ -6,7 +6,6 @@ Run `python ingest.py` ONCE before starting the server.
 
 import os
 import chromadb
-from sentence_transformers import SentenceTransformer
 
 CHROMA_PATH     = os.getenv("CHROMA_PATH", "./chroma_db")
 COLLECTION_NAME = "movies"
@@ -16,7 +15,7 @@ _collection = None
 _model      = None
 
 
-def _init():
+def _init_collection():
     global _client, _collection, _model
     if _collection is None:
         _client     = chromadb.PersistentClient(path=CHROMA_PATH)
@@ -24,13 +23,19 @@ def _init():
             name=COLLECTION_NAME,
             metadata={"hnsw:space": "cosine"},
         )
+
+
+def _init_model():
+    global _model
+    if _model is None:
+        from sentence_transformers import SentenceTransformer
         _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def collection_count() -> int:
     """Returns number of movies in ChromaDB (used by /api/health)."""
     try:
-        _init()
+        _init_collection()
         return _collection.count()
     except Exception:
         return 0
@@ -44,7 +49,8 @@ def query_similar_movies(tags: dict, n: int = 10) -> list:
                poster_url, similarity_score
     """
     try:
-        _init()
+        _init_collection()
+        _init_model()
         if _collection.count() == 0:
             print("[VectorStore] DB empty – did you run ingest.py?")
             return _fallback_movies()
