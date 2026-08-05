@@ -1,4 +1,4 @@
-#CineSpike 
+# CineSpike 
 
 > AI-powered movie trailer analysis — instantly generate genre tags, find comparable films, profile Reddit audiences, and generate deep-dive AI marketing campaigns locally through your Flask backend.
 
@@ -6,7 +6,7 @@ Welcome to CineSpike! This repository contains a full-stack Flask application. T
 
 ---
 
-##Quick Start for Friends & Collaborators
+## Quick Start for Friends & Collaborators
 
 ### 1. Clone the repository
 ```bash
