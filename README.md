@@ -6,6 +6,65 @@ Welcome to CineSpike! This repository contains a full-stack Flask application. T
 
 ---
 
+## Measured Performance
+
+Every number here was produced by a script in [`eval/`](eval/) run against the real
+ChromaDB index in this repo — no estimates. The commands are listed so anything can
+be reproduced, and the raw output is committed under `eval/results/`.
+
+### Retrieval quality
+
+```bash
+python eval/eval_retrieval.py
+```
+
+| Metric | Value |
+|---|---|
+| Movies indexed in ChromaDB | **4,803** |
+| Eval set size | **12 queries** |
+| Mean precision@5 | **0.783** |
+| Mean precision@10 | 0.758 |
+| Random-draw baseline precision | 0.278 |
+
+The eval set is 10 genre queries built through the production `tag_generator.manual_tags()`
+path, plus the 2 real CLIP tag sets produced by earlier `/api/analyze` runs. Relevance is
+judged automatically: a retrieved movie counts as relevant if its TMDB `genres` metadata
+overlaps the genre the query maps to. That is genre overlap, **not** a human judgement of
+"is this a good comparable film." Per-query precision@5 ranged from 0.20 (`animated film`,
+the weakest case — its keyword vector matches live-action films about those topics) to
+1.00 (`comedy film`, `horror movie`, `thriller movie`).
+
+### Latency
+
+```bash
+python eval/eval_pipeline_latency.py
+```
+
+| Stage | Median | Measurements |
+|---|---|---|
+| Vector retrieval (MiniLM encode + Chroma HNSW top-10) | **20.0 ms** (p95 24.6 ms) | 120 |
+| Full analysis pipeline | **10,050 ms** | 9 |
+| ├─ CLIP tagging | 10,026 ms | |
+| ├─ Vector retrieval | 24.8 ms | |
+| ├─ Audience profile | 0.05 ms | |
+| └─ Release planner | 0.09 ms | |
+
+Pipeline timing is 3 real trailers × 3 repeats on CPU, covering `generate_tags` →
+`query_similar_movies` → `get_audience_profile` → `suggest_release_window`. It excludes
+the HTTP round trip, the multipart upload, and the SQLite write. CLIP tagging is 99.8% of
+the total — note that `tag_generator._clip_tags` calls `from_pretrained` on every request,
+so there is no warm path for that stage.
+
+### Not measured
+
+- **Campaign faithfulness / groundedness** — requires a `GROQ_API_KEY`, and no generated campaigns are currently stored to score offline.
+- **CLIP tagging accuracy** — there are no ground-truth genre labels for the sample trailers.
+
+> Note: the subreddit `relevance` values and audience demographics in `reddit_mapper.py`
+> are hardcoded synthetic constants, not measurements. Please don't quote them as metrics.
+
+---
+
 ## Quick Start for Friends & Collaborators
 
 ### 1. Clone the repository
@@ -32,7 +91,7 @@ pip install -r requirements.txt
 *(Note: If you have a decent GPU and want automatic video-tagging via PyTorch/CLIP, make sure you uncomment the PyTorch-related lines at the bottom of `requirements.txt` before installing. Otherwise it will gracefully drop back to manual tag selection).*
 
 ### 4. Populate the Vector Database (Run ONCE)
-We use a dataset of roughly 5000 movies. To download them and embed them into our local `chroma_db`, run:
+We use the TMDB 5000 dataset — 4,803 titles actually land in the index. To download them and embed them into our local `chroma_db`, run:
 ```bash
 python ingest.py
 ```

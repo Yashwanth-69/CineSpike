@@ -1,0 +1,138 @@
+{
+  "summary": {
+    "n_videos": 3,
+    "repeats_per_video": 3,
+    "n_runs": 9,
+    "tagging_methods_observed": [
+      "clip"
+    ],
+    "median_total_ms": 10049.692699998559,
+    "min_total_ms": 9791.94599999937,
+    "max_total_ms": 24144.55569999882,
+    "median_total_ms_excluding_first_repeat": 10137.880599999335,
+    "median_tagging_ms": 10025.804200000493,
+    "median_retrieval_ms": 24.835299998812843,
+    "median_audience_ms": 0.05020000025979243,
+    "median_release_ms": 0.09359999967273325,
+    "scope": "generate_tags + query_similar_movies + get_audience_profile + suggest_release_window. Excludes HTTP, multipart upload, SQLite insert, and the on-demand Groq campaign call."
+  },
+  "runs": [
+    {
+      "video": "5146ade0-f07b-4219-b9b8-e564aa77808a_sample2.mp4",
+      "repeat": 0,
+      "tagging_method": "clip",
+      "tagging_ms": 18031.804600001124,
+      "retrieval_ms": 6112.589000000298,
+      "audience_ms": 0.06159999975352548,
+      "release_planner_ms": 0.094600000011269,
+      "total_ms": 24144.55569999882,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "5146ade0-f07b-4219-b9b8-e564aa77808a_sample2.mp4",
+      "repeat": 1,
+      "tagging_method": "clip",
+      "tagging_ms": 10202.449799999158,
+      "retrieval_ms": 23.448199999620556,
+      "audience_ms": 0.058700001318356954,
+      "release_planner_ms": 0.10599999950500205,
+      "total_ms": 10226.06850000011,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "5146ade0-f07b-4219-b9b8-e564aa77808a_sample2.mp4",
+      "repeat": 2,
+      "tagging_method": "clip",
+      "tagging_ms": 9936.265999998795,
+      "retrieval_ms": 23.3645999996952,
+      "audience_ms": 0.05199999941396527,
+      "release_planner_ms": 0.10180000026593916,
+      "total_ms": 9959.79670000088,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "8395fc32-afe0-4ff6-912b-507a20a36218_sample.mp4",
+      "repeat": 0,
+      "tagging_method": "clip",
+      "tagging_ms": 9904.908000000432,
+      "retrieval_ms": 24.254300000393414,
+      "audience_ms": 0.04340000123193022,
+      "release_planner_ms": 0.08499999967170879,
+      "total_ms": 9929.294699999446,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "8395fc32-afe0-4ff6-912b-507a20a36218_sample.mp4",
+      "repeat": 1,
+      "tagging_method": "clip",
+      "tagging_ms": 10025.804200000493,
+      "retrieval_ms": 23.74000000054366,
+      "audience_ms": 0.05020000025979243,
+      "release_planner_ms": 0.09359999967273325,
+      "total_ms": 10049.692699998559,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "8395fc32-afe0-4ff6-912b-507a20a36218_sample.mp4",
+      "repeat": 2,
+      "tagging_method": "clip",
+      "tagging_ms": 9766.974500000288,
+      "retrieval_ms": 24.835299998812843,
+      "audience_ms": 0.049000000217347406,
+      "release_planner_ms": 0.08320000051753595,
+      "total_ms": 9791.94599999937,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "9b344a20-0ef0-4eb3-9dde-3b5fc9d1dcd1_sample.mp4",
+      "repeat": 0,
+      "tagging_method": "clip",
+      "tagging_ms": 9965.788999999859,
+      "retrieval_ms": 25.577499998689746,
+      "audience_ms": 0.03460000152699649,
+      "release_planner_ms": 0.0667000003886642,
+      "total_ms": 9991.470700000718,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "9b344a20-0ef0-4eb3-9dde-3b5fc9d1dcd1_sample.mp4",
+      "repeat": 1,
+      "tagging_method": "clip",
+      "tagging_ms": 10438.007300001118,
+      "retrieval_ms": 25.05620000010822,
+      "audience_ms": 0.05860000055690762,
+      "release_planner_ms": 0.11439999980211724,
+      "total_ms": 10463.242400001036,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    },
+    {
+      "video": "9b344a20-0ef0-4eb3-9dde-3b5fc9d1dcd1_sample.mp4",
+      "repeat": 2,
+      "tagging_method": "clip",
+      "tagging_ms": 10469.738499999949,
+      "retrieval_ms": 26.747800000521238,
+      "audience_ms": 0.04579999949783087,
+      "release_planner_ms": 0.08209999941755086,
+      "total_ms": 10496.6172000004,
+      "n_movies_returned": 10,
+      "recommended_month": "July",
+      "n_primary_subreddits": 5
+    }
+  ]
+}

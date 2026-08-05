@@ -1,0 +1,390 @@
+{
+  "summary": {
+    "corpus_size": 4803,
+    "eval_set_size": 12,
+    "eval_set_breakdown": {
+      "A_manual_genre": 10,
+      "B_logged_clip": 2
+    },
+    "relevance_judge": "TMDB genre-label overlap from ChromaDB metadata (automatic)",
+    "mean_precision_at_5": 0.7833333333333333,
+    "mean_precision_at_10": 0.7583333333333333,
+    "mean_random_baseline_precision": 0.27798598098410715,
+    "latency_measurements": 120,
+    "median_latency_ms": 19.986299999800394,
+    "p95_latency_ms": 24.58470000055968,
+    "min_latency_ms": 16.27100000041537,
+    "max_latency_ms": 41.46939999918686,
+    "latency_scope": "vector_store.query_similar_movies() only: MiniLM encode + Chroma HNSW top-10 + metadata assembly. Excludes CLIP tagging, file upload, SQLite write, HTTP."
+  },
+  "per_query": [
+    {
+      "set": "A_manual_genre",
+      "query": "action movie",
+      "query_text_genres": [
+        "action movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Action"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.5,
+      "random_baseline_precision": 0.2402665001041016,
+      "median_latency_ms": 20.72260000022652,
+      "top5_titles": [
+        "This Means War",
+        "Disaster Movie",
+        "Action Jackson",
+        "Act of Valor",
+        "Earth"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 58.4
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "comedy film",
+      "query_text_genres": [
+        "comedy film"
+      ],
+      "wanted_tmdb_labels": [
+        "Comedy"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 1.0,
+      "precision_at_10": 0.9,
+      "random_baseline_precision": 0.35852592129918803,
+      "median_latency_ms": 18.8717999990331,
+      "top5_titles": [
+        "Life During Wartime",
+        "Top Five",
+        "Please Give",
+        "Everything You Always Wanted to Know About Sex *But Were Afraid to Ask",
+        "The Greatest Movie Ever Sold"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top1_similarity_score": 61.6
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "horror movie",
+      "query_text_genres": [
+        "horror movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Horror"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 1.0,
+      "precision_at_10": 1.0,
+      "random_baseline_precision": 0.1080574640849469,
+      "median_latency_ms": 18.82980000027601,
+      "top5_titles": [
+        "They",
+        "The Horror Network Vol. 1",
+        "Scream",
+        "American Beast",
+        "Creepshow"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top1_similarity_score": 67.3
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "science fiction film",
+      "query_text_genres": [
+        "science fiction film"
+      ],
+      "wanted_tmdb_labels": [
+        "Science Fiction"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.9,
+      "random_baseline_precision": 0.11138871538621695,
+      "median_latency_ms": 19.489450000037323,
+      "top5_titles": [
+        "Aliens",
+        "Mission to Mars",
+        "I, Robot",
+        "Avatar",
+        "Trekkies"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 64.3
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "romance movie",
+      "query_text_genres": [
+        "romance movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Romance"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.7,
+      "random_baseline_precision": 0.18613366645846346,
+      "median_latency_ms": 19.829249999929743,
+      "top5_titles": [
+        "Love Actually",
+        "Casablanca",
+        "Endless Love",
+        "Fatal Attraction",
+        "The Canyons"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 62.2
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "drama film",
+      "query_text_genres": [
+        "drama film"
+      ],
+      "wanted_tmdb_labels": [
+        "Drama"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.9,
+      "random_baseline_precision": 0.47824276493858003,
+      "median_latency_ms": 20.431200000530225,
+      "top5_titles": [
+        "Earth",
+        "May",
+        "Happiness",
+        "Eulogy",
+        "Love and Other Catastrophes"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 63.5
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "thriller movie",
+      "query_text_genres": [
+        "thriller movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Thriller"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 1.0,
+      "precision_at_10": 0.8,
+      "random_baseline_precision": 0.2652508848636269,
+      "median_latency_ms": 22.16500000031374,
+      "top5_titles": [
+        "Don't Say a Word",
+        "Sinister",
+        "May",
+        "They",
+        "The Canyons"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top1_similarity_score": 68.2
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "animated film",
+      "query_text_genres": [
+        "animated film"
+      ],
+      "wanted_tmdb_labels": [
+        "Animation"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.2,
+      "precision_at_10": 0.1,
+      "random_baseline_precision": 0.04871955028107433,
+      "median_latency_ms": 20.83089999996446,
+      "top5_titles": [
+        "Eulogy",
+        "Earth",
+        "Happiness",
+        "Supporting Characters",
+        "Fantasia"
+      ],
+      "top5_relevant": [
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "top1_similarity_score": 52.4
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "fantasy movie",
+      "query_text_genres": [
+        "fantasy movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Fantasy"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.6,
+      "precision_at_10": 0.7,
+      "random_baseline_precision": 0.08827815948365605,
+      "median_latency_ms": 18.20389999920735,
+      "top5_titles": [
+        "DragonHeart",
+        "George and the Dragon",
+        "Dragonslayer",
+        "The Lord of the Rings: The Return of the King",
+        "Dragonfly"
+      ],
+      "top5_relevant": [
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 67.9
+    },
+    {
+      "set": "A_manual_genre",
+      "query": "crime movie",
+      "query_text_genres": [
+        "crime movie"
+      ],
+      "wanted_tmdb_labels": [
+        "Crime"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.8,
+      "random_baseline_precision": 0.14490943160524672,
+      "median_latency_ms": 18.02664999922854,
+      "top5_titles": [
+        "In Too Deep",
+        "A History of Violence",
+        "Criminal Activities",
+        "Saw",
+        "Triple 9"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "top1_similarity_score": 66.0
+    },
+    {
+      "set": "B_logged_clip",
+      "query": "filmspike.db:sample2.mp4:clip",
+      "query_text_genres": [
+        "science fiction film",
+        "action movie",
+        "drama film"
+      ],
+      "wanted_tmdb_labels": [
+        "Action",
+        "Drama",
+        "Science Fiction"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.9,
+      "random_baseline_precision": 0.6849885488236519,
+      "median_latency_ms": 21.57254999929137,
+      "top5_titles": [
+        "Aliens",
+        "Star Wars",
+        "Mission to Mars",
+        "Trekkies",
+        "Interstellar"
+      ],
+      "top5_relevant": [
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "top1_similarity_score": 61.4
+    },
+    {
+      "set": "B_logged_clip",
+      "query": "filmspike.db:sample.mp4:clip",
+      "query_text_genres": [
+        "science fiction film",
+        "fantasy movie",
+        "drama film"
+      ],
+      "wanted_tmdb_labels": [
+        "Drama",
+        "Fantasy",
+        "Science Fiction"
+      ],
+      "n_returned": 10,
+      "precision_at_5": 0.8,
+      "precision_at_10": 0.9,
+      "random_baseline_precision": 0.621070164480533,
+      "median_latency_ms": 19.502500001181033,
+      "top5_titles": [
+        "Aliens",
+        "Trekkies",
+        "Interstellar",
+        "The Canyons",
+        "Star Wars"
+      ],
+      "top5_relevant": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "top1_similarity_score": 59.3
+    }
+  ]
+}
