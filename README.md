@@ -1,4 +1,4 @@
-# CineSpike 🎬
+# CineSpike 
 
 > AI-powered movie trailer analysis — instantly generate genre tags, find comparable films, profile Reddit audiences, and generate deep-dive AI marketing campaigns locally through your Flask backend.
 
@@ -6,7 +6,7 @@ Welcome to CineSpike! This repository contains a full-stack Flask application. T
 
 ---
 
-## 🚀 Quick Start for Friends & Collaborators
+##  Quick Start for Friends & Collaborators
 
 ### 1. Clone the repository
 ```bash
@@ -117,7 +117,7 @@ After Vercel gives you a production URL:
 
 ---
 
-## 🤖 (Optional) Hooking up Groq for AI Campaigns
+## (Optional) Hooking up Groq for AI Campaigns
 
 On the results dashboard, there is a **Generate AI Strategy** button. This button calls the Flask backend, which uses Groq to write a detailed Reddit-focused marketing campaign based on the trailer data.
 
@@ -135,7 +135,7 @@ To make this button work:
 
 ---
 
-## 👨‍💻 How to Change the Code
+## How to Change the Code
 
 The app is built "API-First". This means the Python backend simply serves data, and the Javascript frontend decides how to display it. 
 
@@ -154,7 +154,7 @@ Open `static/js/results.js`. We use `Chart.js`. Scroll down to the `renderReleas
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 ```text
 filmspike/
 ├── app.py               → The main brain. Starts the server and defines APIs.
